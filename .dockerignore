@@ -1,0 +1,21 @@
+# Ignora dependências locais e de build
+challenger-server/node_modules
+frontend/node_modules
+frontend/.next
+frontend/.env*
+
+challenger-server/dist
+challenger-server/.env*
+
+logs
+npm-debug.log*
+yarn-debug.log*
+
+# Controle de versão e editores
+.git
+challenger-server/.gitignore
+frontend/.gitignore
+challenger-server/npm-debug.log*
+
+# Se usar VSCode, ignore a pasta de configurações
+challenger-server/.vscode

@@ -1,0 +1,32 @@
+services:
+  nestjs-api:
+    build:
+      context: .
+      target: production
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env.production       
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mysql:8    
+    restart: always # Adicionado restart policy para garantir que o serviço tente reiniciar
+    environment:
+      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_DATABASE: cartorio
+    ports:
+      - "13306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+     
+
+volumes:
+  mysql_data:
+    driver: local
+    

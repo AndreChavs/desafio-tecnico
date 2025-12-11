@@ -1,0 +1,40 @@
+# Ignora pastas node_modules em ambos os projetos
+backend/node_modules
+frontend/node_modules
+
+# Ignora pastas de build e output
+backend/dist
+frontend/.next
+
+# Ignora arquivos de ambiente local (devido ao uso do .env.production no Docker)
+# .env*
+
+
+# Controle de versão e editores
+.gitattributes
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs e arquivos de depuração
+*.log
+npm-debug.log*
+yarn-debug.log*
+logs
+pnpm-debug.log*
+
+# Se usar VSCode, ignore a pasta de configurações
+.vscode
+
+# Cobertura de testes e relatórios
+coverage
+*.tgz
+
+# Arquivos temporários e de swap
+*.swp
+.idea
+.project
+.classpath
+
+# Exclui o volume de dados MySQL local se ele estiver na raiz do projeto local
+mysql_data
