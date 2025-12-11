@@ -90,9 +90,17 @@ Biblioteca para declaração e validação de schemas em TypeScript. Garante que
 Certifique-se de ter o Docker instalado e em execução em sua máquina.
 
 Navegue até a raiz do projeto onde o arquivo `docker-compose.yml` está localizado e execute o seguinte comando no terminal:
-
 ```bash
 docker-compose up -d
+```
+
+``
+Aplique as Migrações do Banco de Dados (Importante!):
+Após os containers subirem, o banco de dados estará vazio. Você precisa rodar o comando do Prisma para criar as tabelas.
+Abra outro terminal (Git Bash) na raiz
+``
+
+```bash
 docker-compose exec nestjs-api npx prisma migrate deploy --schema=./prisma/schema.prisma
 ```
 
