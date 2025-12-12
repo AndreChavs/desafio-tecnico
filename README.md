@@ -15,7 +15,7 @@ cd desafio-tecnico
 
 ## Backend (challenger-server):
   - **Tecnologias:** Nest.js, Typescript, Express, Prisma, Zod, @nestjs/swagger e Multer.
-  - **Porque use o Nest.js ao invés do Node.js como foi sugerido no desafio técnico?**
+  - **Porque usei o Nest.js ao invés do Node.js como foi sugerido no desafio técnico?**
   `Embora o desafio recomendasse a utilização de Node.js com Express, escolhi NestJS por oferecer uma estrutura mais robusta e padronizada para projetos reais. A decisão foi técnica, não estética. NestJS entrega benefícios que aceleram o desenvolvimento e elevam a qualidade da solução (especialmente quando o objetivo é entregar algo profissional, organizado e escalável).`
 
 ## Banco de Dados (MySQL):
