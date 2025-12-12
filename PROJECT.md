@@ -91,7 +91,7 @@ Certifique-se de ter o Docker instalado e em execução em sua máquina.
 
 Navegue até a raiz do projeto onde o arquivo `docker-compose.yml` está localizado e execute o seguinte comando no terminal:
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 
 ``
