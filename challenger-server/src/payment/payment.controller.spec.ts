@@ -3,6 +3,11 @@ import { PaymentController } from './payment.controller';
 import { BadRequestException } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 
+
+beforeAll(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+});
+
 describe('PaymentsController - uploadReceipt', () => {
   let controller: PaymentController;
   let service: PaymentService;
@@ -82,4 +87,7 @@ describe('PaymentsController - uploadReceipt', () => {
 
     expect(response).toEqual(payload);
   });
+
+
+  
 });
