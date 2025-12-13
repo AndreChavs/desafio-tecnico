@@ -45,26 +45,33 @@ export class PaymentResSwagger {
   @ApiProperty({ example: 42 })
   id: number;
 
-  @ApiProperty({ example: '2025-01-31' })
+  @ApiProperty({ example: '2025-01-31T00:00:00.000Z' })
   date: string;
 
   @ApiProperty({ example: 'Pagamento de hospedagem' })
   description: string;
 
-  @ApiProperty({ example: 199.90 })
-  amount: number;
+  @ApiProperty({
+    example: '199.90',
+    description: 'Valor monetário representado como string',
+  })
+  amount: string;
 
-  @ApiProperty({ example: '/uploads/receipts/1738262812-abc.png', required: false })
-  receiptPath?: string;
+  @ApiProperty({
+    example: '/uploads/receipts/1738262812-abc.png',
+    required: false,
+    nullable: true,
+  })
+  receiptPath?: string | null;
 
   @ApiProperty({ example: 1 })
   paymentTypeId: number;
 
   @ApiProperty({ example: '2025-01-31T12:00:00.000Z' })
-  createdAt: Date;
+  createdAt: string;
 
   @ApiProperty({ example: '2025-01-31T12:00:00.000Z' })
-  updatedAt: Date;
+  updatedAt: string;
 }
 
 export class PaymentTypeResSwagger {

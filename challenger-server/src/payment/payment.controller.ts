@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors, UsePipes } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UploadedFile, UseInterceptors, UsePipes } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { ZodValidationPipe } from '../common/zod.pipe';
 import { IdParamSchema, PaymentSchema } from './schema/payment.schema';
@@ -10,17 +10,19 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePaymentTypeSchema } from './schema/payment-type.schema';
+import { ResponsePaymentDto } from './dto/response-payment.dto';
 
 @ApiTags('API Payment')
 @Controller('api/payment')
 export class PaymentController {
     constructor(private service: PaymentService) {}
 
-    @Post('create')    
+    @Post('create')
+    @HttpCode(HttpStatus.OK)   
     @ApiOperation({ summary: 'Create a new payment'})
     @ApiBody({type: CreatePaymentSwaggerDto})
     @ApiResponse({
-        status: 200,
+        status: 201,
         description: 'Payment created successfully.',
         type: PaymentResSwagger,
     })
@@ -37,8 +39,8 @@ export class PaymentController {
         description: 'List of payments returned successfully.',
         type: PaymentResSwagger,
         isArray: true
-    })
-    public async getPayments() {
+    })    
+    public async getPayments():Promise<{payments: ResponsePaymentDto[]}> {
         return await this.service.findAll();
     }
 

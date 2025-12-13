@@ -55,10 +55,21 @@ export class PaymentService {
     public async findAll(){
         // Lógica para listar todos os pagamentos
         try {
-            return {payments: await this.prisma.payment.findMany()} ;
+            const payments = await this.prisma.payment.findMany()
+            return {payments: payments.map(p => ({
+                    id: p.id,
+                    amount: p.amount.toString(),
+                    date: p.date.toISOString(),
+                    description: p.description,
+                    paymentTypeId: p.paymentTypeId,
+                    receiptPath: p.receiptPath,
+                    createdAt: p.createdAt.toISOString(),
+                    updatedAt: p.updatedAt.toISOString(),
+                }))
+            };
             
         } catch (error) {
-            throw new BadRequestException('Erro ao listar pagamentos.');  
+            throw new BadRequestException('Erro ao listar pagamentos.');
         }
     }
     

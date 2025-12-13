@@ -5,7 +5,7 @@ import { PaymentSchema } from './schema/payment.schema';
 import { BadRequestException } from '@nestjs/common';
 
 beforeAll(() => {
-  jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.spyOn(console, 'error').mockImplementation(() => {});  
 });
 
 describe('PaymentService', () => {
@@ -30,7 +30,7 @@ describe('PaymentService', () => {
       providers: [
         PaymentService,
         {
-          provide: PrismaService, // CORRETO
+          provide: PrismaService,
           useValue: prismaMock,
         },
       ],
@@ -134,24 +134,53 @@ describe('PaymentService', () => {
   ////////// Teste FindAll ///////////
   it('deve listar todos os pagamentos', async () => {
     const mockPayments = [
-      { id: 1, amount: 200 },
-      { id: 2, amount: 500 },
+      {
+        id: 1,
+        amount: '150',
+        description: 'Pagamento de taxa',
+        date: '2025-01-15T00:00:00.000Z',
+        paymentTypeId: 1,
+        receiptPath: null,
+        createdAt: '2025-01-15T10:00:00.000Z',
+        updatedAt: '2025-01-15T10:00:00.000Z',
+      },
+      {
+        id: 2,
+        amount: '300',
+        description: 'Pagamento de taxa',
+        date: '2025-11-25T00:00:00.000Z',
+        paymentTypeId: 2,
+        receiptPath: null,
+        createdAt: '2025-11-25T10:00:00.000Z',
+        updatedAt: '2025-11-25T10:00:00.000Z',
+      },
     ];
+
 
     prismaMock.payment.findMany.mockResolvedValue(mockPayments);
 
     const result = await service.findAll();
 
     expect(prismaMock.payment.findMany).toHaveBeenCalled();
-    expect(result).toEqual({ payments: mockPayments });
+    expect(result).toEqual({
+      payments: mockPayments.map(p => ({
+        id: p.id,
+        amount: p.amount.toString(),
+        date: p.date,
+        description: p.description,
+        paymentTypeId: p.paymentTypeId,
+        receiptPath: p.receiptPath,
+        createdAt: p.createdAt,
+        updatedAt: p.updatedAt,
+      })),
+    });
   });
 
   it('deve lançar BadRequestException ao falhar ao listar', async () => {
     prismaMock.payment.findMany.mockRejectedValue(new Error('DB error'));
 
-    await expect(service.findAll()).rejects.toThrow(
-      BadRequestException,
-    );
+    await expect(service.findAll()).rejects.toBeInstanceOf(BadRequestException);
+    await expect(service.findAll()).rejects.toThrow('Erro ao listar pagamentos.');
   });
 
   ////////Updadete payment//////
