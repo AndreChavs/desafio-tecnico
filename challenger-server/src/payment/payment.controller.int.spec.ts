@@ -23,6 +23,7 @@ describe('PaymentController – integração', () => {
                     useValue:{
                         create: jest.fn(),
                         findAll: jest.fn(),
+                        createPaymentType: jest.fn(),
                     }
                 }
             ]
@@ -50,7 +51,7 @@ describe('PaymentController – integração', () => {
         const response = await request(app.getHttpServer())
         .post('/api/payment/create')
         .send(payload)
-        .expect(HttpStatus.OK);
+        .expect(HttpStatus.CREATED);
 
         expect(response.body).toEqual({
         message: 'Payment criado com sucesso!',
@@ -113,4 +114,36 @@ describe('PaymentController – integração', () => {
 
         expect(service.findAll).toHaveBeenCalledTimes(1);
     });
+
+    // POST /payment/types/create
+    it('POST /payment/types/create → deve criar um tipo de pagamento', async () => {
+        const payload = { name: 'PIX' };
+
+        jest.spyOn(service, 'createPaymentType').mockResolvedValue({
+            message: "Typo de pagamento criado com sucesso! : 'PIX'",
+        });
+
+        const response = await request(app.getHttpServer())
+            .post('/api/payment/types/create')
+            .send(payload)
+            .expect(HttpStatus.CREATED); // 201, já que é criação
+
+        expect(response.body).toEqual({
+            message: "Typo de pagamento criado com sucesso! : 'PIX'",
+        });
+
+        expect(service.createPaymentType).toHaveBeenCalledTimes(1);
+        expect(service.createPaymentType).toHaveBeenCalledWith('PIX');
+    });
+
+  it('POST /payment/types/create → deve rejeitar payload inválido', async () => {
+    const invalidPayload = { nome: 'PIX' }; // chave errada / inválida
+
+    const response = await request(app.getHttpServer())
+      .post('/api/payment/types/create')
+      .send(invalidPayload)
+      .expect(HttpStatus.BAD_REQUEST);
+
+    expect(service.createPaymentType).not.toHaveBeenCalled();
+  });
 })

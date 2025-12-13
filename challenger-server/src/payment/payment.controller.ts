@@ -18,7 +18,7 @@ export class PaymentController {
     constructor(private service: PaymentService) {}
 
     @Post('create')
-    @HttpCode(HttpStatus.OK)   
+    @HttpCode(HttpStatus.CREATED)   
     @ApiOperation({ summary: 'Create a new payment'})
     @ApiBody({type: CreatePaymentSwaggerDto})
     @ApiResponse({
@@ -97,6 +97,7 @@ export class PaymentController {
     }
 
     @Post('types/create')
+    @HttpCode(HttpStatus.CREATED)  
     @UsePipes(new ZodValidationPipe(CreatePaymentTypeSchema))
     @ApiOperation({ summary: 'Criar novo tipo de pagamento' })
     @ApiBody({ type: CreatePaymentTypeSchemaSwagger })
